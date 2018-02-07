@@ -415,7 +415,7 @@ class ChipInput extends React.Component {
     }
   }
 
-  handleSelectChip (value, index) {
+  handleSelectChip = (value, index) => {
     if (this.props.onSelectChip) {
       this.props.onSelectChip(value, index)
     }
@@ -458,6 +458,7 @@ class ChipInput extends React.Component {
       onBlur, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
       onFocus, // eslint-disable-line no-unused-vars
+      onSelectChip,
       style,
       chipContainerStyle,
       underlineDisabledStyle,
