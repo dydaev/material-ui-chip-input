@@ -415,6 +415,13 @@ class ChipInput extends React.Component {
     }
   }
 
+  handleSelectChip (value, index) {
+    if (this.props.onSelectChip) {
+      this.props.onSelectChip(value, index)
+    }
+    this.setState({ focusedChip: value })
+  }
+
   clearInput () {
     this.setState({ inputValue: '' })
   }
@@ -549,7 +556,7 @@ class ChipInput extends React.Component {
                 chip: tag,
                 isDisabled: disabled,
                 isFocused: dataSourceConfig ? (this.state.focusedChip && this.state.focusedChip[dataSourceConfig.value] === value) : (this.state.focusedChip === value),
-                handleClick: () => this.setState({ focusedChip: value }),
+                handleClick: () => this.handleSelectChip(value, i),
                 handleRequestDelete: () => this.handleDeleteChip(value, i),
                 defaultStyle: styles.defaultChip
               }, i)
@@ -612,6 +619,7 @@ ChipInput.propTypes = {
   onBeforeRequestAdd: PropTypes.func,
   onRequestAdd: PropTypes.func,
   onRequestDelete: PropTypes.func,
+  onSelectChip: PropTypes.func,
   dataSource: PropTypes.array,
   onUpdateInput: PropTypes.func,
   openOnFocus: PropTypes.bool,
