@@ -52,9 +52,10 @@ import ChipInput from 'material-ui-chip-input'
 | onBlur | `function` | | Callback function that is called with `event` when the input loses focus, where `event.target.value` is the current value of the text input. |
 | onChange | `function` | | Callback function that is called when the chips change (in uncontrolled mode). |
 | onClick | `function` | | Callback function that is called when text input is clicked. |
+| onSelectChip | `function` | | Callback function that is called when chip is clicked, return (value, index). |
 | onRequestAdd | `function` | | Callback function that is called when a new chip was added (in controlled mode). |
 | onRequestDelete | `function` | | Callback function that is called when a new chip was removed (in controlled mode). |
-| onUpdateInput | `function` | | Callback function that is called when the input changes (useful for auto complete). |
+| onUpdateInput | `function` | | Callback function that is called when the input changes (useful for auto complete). Can use returning callback value for control input field (for mask etc...)|
 | openOnFocus | `bool` | `false` | Opens the auto complete list on focus if set to true. |
 | style | `object` | | Override the inline-styles of the root element. |
 | value | `string[]` | | The chips to display (enables controlled mode if set). |
