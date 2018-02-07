@@ -97,12 +97,13 @@ const getStyles = (props, context, state) => {
   return styles
 }
 
-const defaultChipRenderer = ({ value, text, isFocused, isDisabled, handleClick, handleRequestDelete, defaultStyle }, key) => (
+const defaultChipRenderer = ({ value, text, isFocused, isDisabled, handleDoubleClick, handleClick, handleRequestDelete, defaultStyle }, key) => (
   <Chip
     key={key}
     style={{ ...defaultStyle, pointerEvents: isDisabled ? 'none' : undefined }}
     backgroundColor={isFocused ? blue300 : null}
     onClick={handleClick}
+    onDoubleClick={handleDoubleClick}
     onRequestDelete={handleRequestDelete}
   >
     {text}
@@ -188,6 +189,11 @@ class ChipInput extends React.Component {
     if (nextProps.errorText !== this.props.errorText) {
       this.setState({
         errorText: nextProps.errorText
+      })
+    }
+    if (this.props.searchText !== nextProps.searchText) {
+      this.setState({
+        inputValue: nextProps.searchText
       })
     }
   }
@@ -415,6 +421,13 @@ class ChipInput extends React.Component {
     }
   }
 
+  handleSelectChipOnDoubleClick = (value, index) => {
+    if (this.props.onDoubleClickSelectChip) {
+      this.props.onDoubleClickSelectChip(value, index)
+    }
+    this.setState({ focusedChip: value })
+  }
+
   handleSelectChip = (value, index) => {
     if (this.props.onSelectChip) {
       this.props.onSelectChip(value, index)
@@ -459,6 +472,7 @@ class ChipInput extends React.Component {
       onChange, // eslint-disable-line no-unused-vars
       onFocus, // eslint-disable-line no-unused-vars
       onSelectChip,
+      onDoubleClickSelectChip,
       style,
       chipContainerStyle,
       underlineDisabledStyle,
@@ -558,6 +572,7 @@ class ChipInput extends React.Component {
                 isDisabled: disabled,
                 isFocused: dataSourceConfig ? (this.state.focusedChip && this.state.focusedChip[dataSourceConfig.value] === value) : (this.state.focusedChip === value),
                 handleClick: () => this.handleSelectChip(value, i),
+                handleDoubleClick: () => this.handleSelectChipOnDoubleClick(value, i),
                 handleRequestDelete: () => this.handleDeleteChip(value, i),
                 defaultStyle: styles.defaultChip
               }, i)
@@ -617,10 +632,12 @@ ChipInput.propTypes = {
   defaultValue: PropTypes.array,
   onChange: PropTypes.func,
   value: PropTypes.array,
+  searchText: PropTypes.string,
   onBeforeRequestAdd: PropTypes.func,
   onRequestAdd: PropTypes.func,
   onRequestDelete: PropTypes.func,
   onSelectChip: PropTypes.func,
+  onDoubleClickSelectChip: PropTypes.func,
   dataSource: PropTypes.array,
   onUpdateInput: PropTypes.func,
   openOnFocus: PropTypes.bool,
